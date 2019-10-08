@@ -35,3 +35,6 @@ dependencies:
   - name: rpe-send-letter-service
     version: ~0.0.4
     repository: '@hmctspublic'
+  - name: ccd
+    version: ~3.0.4
+    repository: '@hmctspublic'

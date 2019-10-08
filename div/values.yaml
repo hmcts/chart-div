@@ -11,6 +11,15 @@ div-cos:
     livenessPeriod: 60
     keyVaults:
     environment:
+      IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      FEATURE_DN_REFUSAL: "true"
+      FEATURE_RESP_SOLICITOR_DETAILS: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
+      SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_ENABLED: true
+      BULKACTION_MINCASES: 5
+      DATAEXTRACTION_STATUS_DA_EMAILTO: da_data_extraction@sharklasers.com
+      DATAEXTRACTION_STATUS_DN_EMAILTO: dn_data_extraction@sharklasers.com
+      DATAEXTRACTION_STATUS_AOS_EMAILTO: aos_data_extraction@sharklasers.com
 
 div-cms:
   java:
@@ -21,6 +30,7 @@ div-cms:
     livenessPeriod: 60
     keyVaults:
     environment:
+      IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
 
 div-dgs:
   java:
@@ -31,6 +41,10 @@ div-dgs:
     livenessPeriod: 60
     keyVaults:
     environment:
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
+      FEATURE_RESP_SOLICITOR_DETAILS: "true"
+      DOCMOSIS_SERVICE_DEV_MODE_FLAG: "true"
+      PDF_TEST_ENABLED: "true"
 
 div-emca:
   java:
@@ -41,6 +55,8 @@ div-emca:
     livenessPeriod: 60
     keyVaults:
     environment:
+      IDAM_API_HEALTH_URI: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health
+      IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
 
 div-fps:
   java:
