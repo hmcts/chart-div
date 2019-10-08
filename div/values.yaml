@@ -1,0 +1,170 @@
+tags:
+  idam-pr: true
+
+### Divorce SERVICES ###
+div-cos:
+  java:
+    image: hmctspublic.azurecr.io/cmc/div-cos:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+
+div-cms:
+  java:
+    image: hmctspublic.azurecr.io/cmc/div-cms:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+
+div-dgs:
+  java:
+    image: hmctspublic.azurecr.io/cmc/div-dgs:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+
+div-emca:
+  java:
+    image: hmctspublic.azurecr.io/cmc/div-emca:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+
+div-fps:
+  java:
+    image: hmctspublic.azurecr.io/cmc/div-fps:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+
+########################
+
+##### DEPENDENCIES #####
+rpe-send-letter-service:
+  java:
+    image: hmctspublic.azurecr.io/rpe/send-letter-service:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+      FILE_CLEANUP_ENABLED: true
+      LETTER_TRACKING_DB_CONN_OPTIONS: ""
+      LETTER_TRACKING_DB_NAME: send_letter
+      LETTER_TRACKING_DB_USER_NAME: "hmcts"
+      LETTER_TRACKING_DB_PASSWORD: "hmcts"
+
+dm-store:
+  java:
+    image: hmctspublic.azurecr.io/dm/store:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    secrets:
+      STORAGE_ACCOUNT_NAME:
+        disabled: true
+      STORAGE_ACCOUNT_KEY:
+        disabled: true
+      STORAGE_CONTAINER_DOCUMENT_CONTAINER_NAME:
+        disabled: true
+    keyVaults:
+    environment:
+      ENABLE_DB_MIGRATE: 'true'
+      ENABLE_TTL: 'false'
+      SPRING_DATASOURCE_USERNAME: hmcts
+      SPRING_DATASOURCE_PASSWORD: hmcts
+      ENABLE_AZURE_STORAGE_CONTAINER: 'false'
+      POSTGRES_STORAGE_ENABLED: 'true'
+      STORAGEACCOUNT_PRIMARY_CONNECTION_STRING: 'DefaultEndpointsProtocol=https;AccountName=AAAAAAAAAAAAAAAA;AccountKey=AAAAAAAAAAAAAAAA;EndpointSuffix=core.windows.net'
+      CASE_WORKER_ROLES: caseworker-cmc,caseworker-cmc-judge
+
+cmc-pdf-service:
+  java:
+    image: hmctspublic.azurecr.io/cmc/pdf-service:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+
+draft-store-service:
+  java:
+    image: hmctspublic.azurecr.io/draft-store/service:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+      DRAFT_STORE_DB_NAME: draftstore
+      DRAFT_STORE_DB_PORT: '5432'
+      DRAFT_STORE_DB_USER_NAME: hmcts
+      RUN_DB_MIGRATION_ON_STARTUP: 'true'
+      DRAFT_STORE_DB_PASSWORD: hmcts
+
+fees-register-api:
+  java:
+    image: hmctspublic.azurecr.io/fees-register/api:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 45
+    livenessPeriod: 45
+    keyVaults:
+    environment:
+      SPRING_DATASOURCE_USERNAME: hmcts
+      SPRING_DATASOURCE_PASSWORD: hmcts
+      SPRING_LIQUIBASE_ENABLED: true
+      ENABLE_FEE_LOADER: true
+
+payment-api:
+  java:
+    image: hmctspublic.azurecr.io/payment/api:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+      PAYMENT_AUDIT_FILE: /tmp/payment-audit.log
+      ASB_CONNECTION_STRING: false
+      SPRING_DATASOURCE_USERNAME: hmcts
+      SPRING_DATASOURCE_PASSWORD: hmcts
+      SPRING_LIQUIBASE_ENABLED: true
+
+rpe-service-auth-provider:
+  java:
+    image: hmctspublic.azurecr.io/rpe/service-auth-provider:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    keyVaults:
+    environment:
+      TESTING_SUPPORT_ENABLED: 'true'
+      MICROSERVICEKEYS_CMC: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CMC_CLAIM_SUBMIT_API: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CMC_LEGAL_FRONTEND: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CMC_CLAIM_STORE: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_EM_GW: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_DATA: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_DEFINITION: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_GATEWAY: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_GW: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_DG_DOCASSEMBLY_API: AAAAAAAAAAAAAAAA
