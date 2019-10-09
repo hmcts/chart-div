@@ -6,6 +6,7 @@ div-cos:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: div-cos-{{ .Release.Name }}
     environment:
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
@@ -24,6 +25,7 @@ div-cms:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: div-cms-{{ .Release.Name }}
     environment:
       IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
 
@@ -34,6 +36,7 @@ div-dgs:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: div-dgs-{{ .Release.Name }}
     environment:
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
@@ -47,6 +50,7 @@ div-emca:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: div-emca-{{ .Release.Name }}
     environment:
       IDAM_API_HEALTH_URI: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health
       IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
@@ -58,6 +62,7 @@ div-fps:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: div-fps-{{ .Release.Name }}
 
 ########################
 
