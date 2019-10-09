@@ -1,4 +1,12 @@
-### Divorce SERVICES ###
+tags:
+  div-ccd-stack: true                   # claim-store chart
+  idam-pr: true                         # citizen-frontend chart - will add IDAM redirect urls
+  ccd-idam-pr: true                     # claim-store chart - will add IDAM redirect urls
+  rpe-feature-toggle-api-pod: true      # citizen-frontend dep
+  postgresql-pod: false                 # any chart specific postgres
+  blobstorage: false                    # blob storage for dm-store
+
+### Divorce Services ###
 div-cos:
   java:
     image: hmctspublic.azurecr.io/div/cos:latest
@@ -173,6 +181,25 @@ rpe-service-auth-provider:
       MICROSERVICEKEYS_CCD_GATEWAY: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_CCD_GW: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_DG_DOCASSEMBLY_API: AAAAAAAAAAAAAAAA
+
+postgresql:
+  # postgresqlConfiguration: { "maxConnections": 300 }
+  resources:
+    requests:
+      cpu: 25m
+  initdbScripts:
+    init.sql: |-
+      CREATE DATABASE "draftstore" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "fees_register" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "payment_api" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "send_letter" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "data-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "definition-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+  postgresqlUsername: hmcts
+  postgresqlPassword: hmcts
+  postgresqlDatabase: user-profile
+  persistence:
+    enabled: true
 
 ccd:
   ingressHost: ${SERVICE_FQDN}
