@@ -1,12 +1,12 @@
 ### Divorce SERVICES ###
 div-cos:
   java:
-    image: hmctspublic.azurecr.io/cmc/div-cos:latest
+    image: hmctspublic.azurecr.io/div/cos:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: div-cos-{{ .Release.Name }}
+    releaseNameOverride: cos-{{ .Release.Name }}
     environment:
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
@@ -20,23 +20,23 @@ div-cos:
 
 div-cms:
   java:
-    image: hmctspublic.azurecr.io/cmc/div-cms:latest
+    image: hmctspublic.azurecr.io/div/cms:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: div-cms-{{ .Release.Name }}
+    releaseNameOverride: cms-{{ .Release.Name }}
     environment:
       IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
 
 div-dgs:
   java:
-    image: hmctspublic.azurecr.io/cmc/div-dgs:latest
+    image: hmctspublic.azurecr.io/div/dgs:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: div-dgs-{{ .Release.Name }}
+    releaseNameOverride: dgs-{{ .Release.Name }}
     environment:
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
@@ -45,24 +45,24 @@ div-dgs:
 
 div-emca:
   java:
-    image: hmctspublic.azurecr.io/cmc/div-emca:latest
+    image: hmctspublic.azurecr.io/div/emca:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: div-emca-{{ .Release.Name }}
+    releaseNameOverride: emca-{{ .Release.Name }}
     environment:
       IDAM_API_HEALTH_URI: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health
       IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
 
 div-fps:
   java:
-    image: hmctspublic.azurecr.io/cmc/div-fps:latest
+    image: hmctspublic.azurecr.io/div/fps:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: div-fps-{{ .Release.Name }}
+    releaseNameOverride: fps-{{ .Release.Name }}
 
 ########################
 
