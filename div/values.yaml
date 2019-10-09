@@ -1,0 +1,236 @@
+### Divorce SERVICES ###
+div-cos:
+  java:
+    image: hmctspublic.azurecr.io/div/cos:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: cos-{{ .Release.Name }}
+    environment:
+      IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      FEATURE_DN_REFUSAL: "true"
+      FEATURE_RESP_SOLICITOR_DETAILS: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
+      SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_ENABLED: true
+      BULKACTION_MINCASES: 5
+      DATAEXTRACTION_STATUS_DA_EMAILTO: da_data_extraction@sharklasers.com
+      DATAEXTRACTION_STATUS_DN_EMAILTO: dn_data_extraction@sharklasers.com
+      DATAEXTRACTION_STATUS_AOS_EMAILTO: aos_data_extraction@sharklasers.com
+
+div-cms:
+  java:
+    image: hmctspublic.azurecr.io/div/cms:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: cms-{{ .Release.Name }}
+    environment:
+      IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+
+div-dgs:
+  java:
+    image: hmctspublic.azurecr.io/div/dgs:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: dgs-{{ .Release.Name }}
+    environment:
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
+      FEATURE_RESP_SOLICITOR_DETAILS: "true"
+      DOCMOSIS_SERVICE_DEV_MODE_FLAG: "true"
+      PDF_TEST_ENABLED: "true"
+
+div-emca:
+  java:
+    image: hmctspublic.azurecr.io/div/emca:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: emca-{{ .Release.Name }}
+    environment:
+      IDAM_API_HEALTH_URI: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health
+      IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+
+div-fps:
+  java:
+    image: hmctspublic.azurecr.io/div/fps:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: fps-{{ .Release.Name }}
+
+########################
+
+##### DEPENDENCIES #####
+rpe-send-letter-service:
+  java:
+    image: hmctspublic.azurecr.io/rpe/send-letter-service:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    environment:
+      FILE_CLEANUP_ENABLED: true
+      LETTER_TRACKING_DB_CONN_OPTIONS: ""
+      LETTER_TRACKING_DB_NAME: send_letter
+      LETTER_TRACKING_DB_USER_NAME: "hmcts"
+      LETTER_TRACKING_DB_PASSWORD: "hmcts"
+
+dm-store:
+  java:
+    image: hmctspublic.azurecr.io/dm/store:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    secrets:
+      STORAGE_ACCOUNT_NAME:
+        disabled: true
+      STORAGE_ACCOUNT_KEY:
+        disabled: true
+      STORAGE_CONTAINER_DOCUMENT_CONTAINER_NAME:
+        disabled: true
+    environment:
+      ENABLE_DB_MIGRATE: 'true'
+      ENABLE_TTL: 'false'
+      SPRING_DATASOURCE_USERNAME: hmcts
+      SPRING_DATASOURCE_PASSWORD: hmcts
+      ENABLE_AZURE_STORAGE_CONTAINER: 'false'
+      POSTGRES_STORAGE_ENABLED: 'true'
+      STORAGEACCOUNT_PRIMARY_CONNECTION_STRING: 'DefaultEndpointsProtocol=https;AccountName=AAAAAAAAAAAAAAAA;AccountKey=AAAAAAAAAAAAAAAA;EndpointSuffix=core.windows.net'
+      CASE_WORKER_ROLES: caseworker-cmc,caseworker-cmc-judge
+
+cmc-pdf-service:
+  java:
+    image: hmctspublic.azurecr.io/cmc/pdf-service:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+
+draft-store-service:
+  java:
+    image: hmctspublic.azurecr.io/draft-store/service:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    environment:
+      DRAFT_STORE_DB_NAME: draftstore
+      DRAFT_STORE_DB_PORT: '5432'
+      DRAFT_STORE_DB_USER_NAME: hmcts
+      RUN_DB_MIGRATION_ON_STARTUP: 'true'
+      DRAFT_STORE_DB_PASSWORD: hmcts
+
+fees-register-api:
+  java:
+    image: hmctspublic.azurecr.io/fees-register/api:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 45
+    livenessPeriod: 45
+    environment:
+      SPRING_DATASOURCE_USERNAME: hmcts
+      SPRING_DATASOURCE_PASSWORD: hmcts
+      SPRING_LIQUIBASE_ENABLED: true
+      ENABLE_FEE_LOADER: true
+
+payment-api:
+  java:
+    image: hmctspublic.azurecr.io/payment/api:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    environment:
+      PAYMENT_AUDIT_FILE: /tmp/payment-audit.log
+      ASB_CONNECTION_STRING: false
+      SPRING_DATASOURCE_USERNAME: hmcts
+      SPRING_DATASOURCE_PASSWORD: hmcts
+      SPRING_LIQUIBASE_ENABLED: true
+
+rpe-service-auth-provider:
+  java:
+    image: hmctspublic.azurecr.io/rpe/service-auth-provider:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    environment:
+      TESTING_SUPPORT_ENABLED: 'true'
+      MICROSERVICEKEYS_CMC: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CMC_CLAIM_SUBMIT_API: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CMC_LEGAL_FRONTEND: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CMC_CLAIM_STORE: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_EM_GW: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_DATA: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_DEFINITION: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_GATEWAY: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_CCD_GW: AAAAAAAAAAAAAAAA
+      MICROSERVICEKEYS_DG_DOCASSEMBLY_API: AAAAAAAAAAAAAAAA
+
+ccd:
+  ingressHost: ${SERVICE_FQDN}
+  ingressIP: ${INGRESS_IP}
+  consulIP: ${CONSUL_LB_IP}
+
+  idam-pr:
+    releaseNameOverride: ${SERVICE_NAME}-ccd-idam-pr
+    redirect_uris:
+      CCD:
+        - https://case-management-web-${SERVICE_FQDN}/oauth2redirect
+      CCD Admin:
+        - https://admin-web-${SERVICE_FQDN}/oauth2redirect
+
+  apiGateway:
+    s2sKey: ${API_GATEWAY_S2S_KEY}
+    idamClientSecret:
+      value: ${API_GATEWAY_IDAM_SECRET}
+
+  userProfileApi:
+    authorisedServices: ccd_admin,ccd_data,ccd_definition,divorce
+
+  dataStoreApi:
+    s2sKey: ${DATA_STORE_S2S_KEY}
+    s2sAuthorisedServices: divorce,ccd_gw,divorce_ccd_submission
+
+  definitionStoreApi:
+    s2sKey: ${DEFINITION_STORE_S2S_KEY}
+    s2sAuthorisedServices: ccd_admin,ccd_data,divorce,ccd_gw,divorce_ccd_submission
+
+  caseManagementWeb:
+    enabled: true # if you need access to the web ui then enable this, otherwise it won't be deployed
+    environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+
+  adminWeb:
+    enabled: true # if you need access to the admin web ui then enable this, otherwise it won't be deployed
+    s2sKey: ${ADMIN_S2S_KEY}
+    idamClientSecret:
+      value: ${ADMIN_WEB_IDAM_SECRET}
+    environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+
+  importer:
+    userprofile:
+      enabled: true
+      jurisdictions:
+        - DIVORCE
+      users:
+        - divorce_as_caseworker_beta@mailinator.com|DIVORCE|DIVORCE|Submitted
+        - divorce_as_caseworker_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
+        - divorce_as_caseworker_bulk_scanner@mailinator.com|DIVORCE|DIVORCE|Submitted
+        - divorce_as_caseworker_superuser@mailinator.com|DIVORCE|DIVORCE|Submitted
+        - divorce_as_caseworker_la@mailinator.com|DIVORCE|DIVORCE|Submitted
+        - divorce_as_caseworker_admin@mailinator.com|DIVORCE|DIVORCE|Submitted
+        - divorce_respondent_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
+      userProfileDatabaseHost: ${SERVICE_NAME}-ccd-postgres
+      userProfileDatabasePort: 5432
+      userProfileDatabaseUser: hmcts
+      userProfileDatabasePassword: hmcts
+      userProfileDatabaseName: user-profile

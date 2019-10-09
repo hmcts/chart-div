@@ -1,0 +1,46 @@
+name: chart-div pipeline
+trigger:
+  branches:
+    include:
+      - refs/tags/*
+pr:
+  branches:
+    include:
+      - master
+resources:
+  repositories:
+    - repository: cnp-library
+      type: github
+      ref: master
+      name: hmcts/cnp-azuredevops-libraries
+      endpoint: 'hmcts'
+
+jobs:
+  # IGNORE ANY VALIDATION FOR NOW - not sure how this will work... ci-values will be values - any point?
+  # - job: Validate
+  #   pool:
+  #     vmImage: 'Ubuntu 16.04'
+  #   steps:
+  #   - template: steps/charts/validate.yaml@cnp-library
+  #     parameters:
+  #       chartName: cmc
+  #       chartReleaseName: chart-cmc-ci-test
+  #       chartNamespace: chart-tests
+  #       helmInstallTimeout: "900"
+
+  - job: Release
+    # Make sure we have a tag to run this job
+    condition: >
+      and(
+          succeeded(),
+          startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+        )
+    # dependsOn: Validate
+    pool:
+      vmImage: 'Ubuntu 16.04'
+    steps:
+      - template: steps/charts/release.yaml@cnp-library
+        parameters:
+          chartName: div
+          chartReleaseName: chart-div
+          chartNamespace: chart-tests

@@ -1,0 +1,7 @@
+apiVersion: v1
+description: A Helm chart for the HMCTS Divorce product
+name: div
+version: 1.0.0
+keywords:
+  - div
+  - divorce
