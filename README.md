@@ -11,7 +11,7 @@ Make sure:
 In root dir:
 ```
 helm init
-az acr helm repo add --name hmctspublic --subscription 1c4f0704-a29e-403d-b719-b90c34ef14c9     
+az acr helm repo add --name hmctspublic --subscription DCD-CNP-PROD   
 helm dependency update div 
 helm install --wait --timeout 120 --namespace divorce --name div --debug -f div/values.{env}.yaml div
 ```

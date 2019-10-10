@@ -142,7 +142,9 @@ fees-register-api:
     livenessDelay: 180
     readinessPeriod: 45
     livenessPeriod: 45
+    releaseNameOverride: fees-{{ .Release.Name }}
     environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://div-postgresql-0:5432/fees_register"
       SPRING_DATASOURCE_USERNAME: hmcts
       SPRING_DATASOURCE_PASSWORD: hmcts
       SPRING_LIQUIBASE_ENABLED: true
