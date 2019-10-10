@@ -7,6 +7,15 @@ tags:
   blobstorage: false                    # blob storage for dm-store
 
 ### Divorce Services ###
+div-hm:
+  nodejs:
+    image: hmctspublic.azurecr.io/div/hm:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: hm-{{ .Release.Name }}
+
 div-cos:
   java:
     image: hmctspublic.azurecr.io/div/cos:latest
