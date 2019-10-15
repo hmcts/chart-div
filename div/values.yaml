@@ -94,6 +94,7 @@ div-fps:
 ##### DEPENDENCIES #####
 rpe-send-letter-service:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/rpe/send-letter-service:latest
     readinessDelay: 180
     livenessDelay: 180
@@ -120,6 +121,7 @@ dm-store:
         disabled: true
       STORAGE_CONTAINER_DOCUMENT_CONTAINER_NAME:
         disabled: true
+    releaseNameOverride: "dm-store-{{ .Release.Name }}"
     environment:
       ENABLE_DB_MIGRATE: 'true'
       ENABLE_TTL: 'false'
@@ -128,7 +130,11 @@ dm-store:
       ENABLE_AZURE_STORAGE_CONTAINER: 'false'
       POSTGRES_STORAGE_ENABLED: 'true'
       STORAGEACCOUNT_PRIMARY_CONNECTION_STRING: 'DefaultEndpointsProtocol=https;AccountName=AAAAAAAAAAAAAAAA;AccountKey=AAAAAAAAAAAAAAAA;EndpointSuffix=core.windows.net'
-      CASE_WORKER_ROLES: caseworker-cmc,caseworker-cmc-judge
+      CASE_WORKER_ROLES: caseworker-divorce-courtadmin,caseworker-divorce-courtadmin-la
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/evidence"
+#      IDAM_USER_BASE_URI: https://idam-api.demo.platform.hmcts.net
+#      IDAM_S2S_BASE_URI: http://cmc-demo-s2s
+
 
 cmc-pdf-service:
   java:
@@ -173,17 +179,20 @@ fees-register-api:
 
 payment-api:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/payment/api:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: "payment-api-{{ .Release.Name }}"
     environment:
       PAYMENT_AUDIT_FILE: /tmp/payment-audit.log
       ASB_CONNECTION_STRING: false
       SPRING_DATASOURCE_USERNAME: hmcts
       SPRING_DATASOURCE_PASSWORD: hmcts
       SPRING_LIQUIBASE_ENABLED: true
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/payment_api"
 
 rpe-service-auth-provider:
   java:
@@ -220,6 +229,7 @@ postgresql:
       CREATE DATABASE "send_letter" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "data-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "definition-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "evidence" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
   postgresqlUsername: hmcts
   postgresqlPassword: hmcts
   postgresqlDatabase: user-profile
