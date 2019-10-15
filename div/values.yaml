@@ -161,7 +161,7 @@ fees-register-api:
     livenessDelay: 180
     readinessPeriod: 45
     livenessPeriod: 45
-    releaseNameOverride: fees-{{ .Release.Name }}
+    releaseNameOverride: "fees-{{ .Release.Name }}"
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/fees_register"
       SPRING_DATASOURCE_USERNAME: hmcts
@@ -185,11 +185,13 @@ payment-api:
 
 rpe-service-auth-provider:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/rpe/service-auth-provider:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: rpe-service-auth-provider-{{ .Release.Name }}
     environment:
       TESTING_SUPPORT_ENABLED: 'true'
       MICROSERVICEKEYS_CMC: AAAAAAAAAAAAAAAA
