@@ -1,2 +1,47 @@
 global:
   environment: demo
+
+ccd:
+  ingressHost: cmc-ccd-chart.service.core-compute-preview.internal
+  idamApiUrl: https://idam-api.aat.platform.hmcts.net
+  idamWebUrl: https://idam-web-public.aat.platform.hmcts.net
+  s2sUrl: http://demo-v1-s2s
+  draftStoreUrl: http://demo-v1-draftstore
+  paymentsUrl: http://demo-v1-payments
+  apiGateway:
+    s2sKey: AAAAAAAAAAAAAAAA
+    idamClientSecret:
+      fromSecret: true
+      secretKeyRefName: ccd-aat-ccd-api-gateway-oauth2-client-secret
+      secretKeyRefKey: key
+  dataStoreApi:
+    s2sKey: AAAAAAAAAAAAAAAA
+  definitionStoreApi:
+    s2sKey: AAAAAAAAAAAAAAAA
+  adminWeb:
+    s2sKey: AAAAAAAAAAAAAAAA
+    idamClientSecret:
+      fromSecret: true
+      secretKeyRefName: ccd-aat-ccd-admin-web-oauth2-client-secret
+      secretKeyRefKey: key
+  idam-pr:
+    releaseNameOverride: demo-v1-ccd-idam-pr
+    redirect_uris:
+      CCD:
+        - https://case-management-web-cmc-ccd-chart.service.core-compute-preview.internal/oauth2redirect
+      CCD Admin:
+        - https://admin-web-cmc-ccd-chart.service.core-compute-preview.internal/oauth2redirect
+  importer:
+    userprofile:
+      userProfileDatabaseHost: demo-v1-postgres
+    definition:
+      importerFromSecret: true
+      importerUsername:
+        secretKeyRefName: cmc-aat-ccd-importer-username
+        secretKeyRefKey: key
+      importerPassword:
+        secretKeyRefName: cmc-aat-ccd-importer-password
+        secretKeyRefKey: key
+      redirectUri: "https://ccd-case-management-web-aat.service.core-compute-aat.internal/oauth2redirect"
+  postgresql:
+    nameOverride: postgres

@@ -15,7 +15,7 @@ div-hm:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "hm-{{ .Release.Name }}"
+    releaseNameOverride: "hm-patryk-div"
 
 div-cos:
   java:
@@ -25,7 +25,7 @@ div-cos:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "cos-{{ .Release.Name }}"
+    releaseNameOverride: "cos-patryk-div"
     environment:
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
@@ -45,19 +45,20 @@ div-cms:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "cms-{{ .Release.Name }}"
+    releaseNameOverride: "cms-patryk-div"
     environment:
       IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
       AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
       DRAFT_STORE_API_BASEURL: "http://draft-store-service-{{ .Release.Name }}"
       CASE_FORMATTER_SERVICE_API_BASEURL: "TODO - move to AKS"
       IDAM_API_REDIRECT_URL: "https://div-pfe-{{ .Release.Name }}/authenticated"
-      CASE_DATA_STORE_BASEURL: "http://ccd-data-store-api-{{ .Release.Name }}"
+      CASE_DATA_STORE_BASEURL: "http://ccd-{{ .Release.Name }}"
       AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_ccd_submission"
       AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
       LOG_LEVEL: DEBUG
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       DOCUMENTATION_SWAGGER_ENABLED: true
+
 div-dgs:
   java:
     ingressHost: ""
@@ -66,7 +67,7 @@ div-dgs:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "dgs-{{ .Release.Name }}"
+    releaseNameOverride: "dgs-patryk-div"
     environment:
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
@@ -91,7 +92,7 @@ div-emca:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "emca-{{ .Release.Name }}"
+    releaseNameOverride: "emca-patryk-div"
     environment:
       IDAM_API_HEALTH_URI: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health"
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
@@ -104,7 +105,7 @@ div-fps:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "fps-{{ .Release.Name }}"
+    releaseNameOverride: "fps-patryk-div"
     environment:
       FEE_API_URL: "http://fees-{{ .Release.Name }}"
 
@@ -119,7 +120,7 @@ rpe-send-letter-service:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "rpe-send-letter-service-{{ .Release.Name }}"
+    releaseNameOverride: "rpe-send-letter-service-patryk-div"
     environment:
       FILE_CLEANUP_ENABLED: true
       LETTER_TRACKING_DB_CONN_OPTIONS: ""
@@ -141,7 +142,7 @@ dm-store:
         disabled: true
       STORAGE_CONTAINER_DOCUMENT_CONTAINER_NAME:
         disabled: true
-    releaseNameOverride: "dm-store-{{ .Release.Name }}"
+    releaseNameOverride: "dm-store-patryk-div"
     environment:
       ENABLE_DB_MIGRATE: 'true'
       ENABLE_TTL: 'false'
@@ -161,7 +162,8 @@ cmc-pdf-service:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
+    releaseNameOverride: "cmc-pdf-service-patryk-div"
+#    releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
 
 draft-store-service:
   java:
@@ -171,7 +173,7 @@ draft-store-service:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "draft-store-service-{{ .Release.Name }}"
+    releaseNameOverride: "draft-store-service-patryk-div"
     environment:
       DRAFT_STORE_DB_HOST: "{{ .Release.Name }}-postgresql"
       DRAFT_STORE_DB_NAME: draftstore
@@ -187,7 +189,7 @@ fees-register-api:
     livenessDelay: 180
     readinessPeriod: 45
     livenessPeriod: 45
-    releaseNameOverride: "fees-{{ .Release.Name }}"
+    releaseNameOverride: "fees-patryk-div"
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/fees_register"
       SPRING_DATASOURCE_USERNAME: hmcts
@@ -203,7 +205,7 @@ payment-api:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "payment-api-{{ .Release.Name }}"
+    releaseNameOverride: "payment-api-patryk-div"
     environment:
       PAYMENT_AUDIT_FILE: /tmp/payment-audit.log
       ASB_CONNECTION_STRING: false
@@ -220,7 +222,7 @@ rpe-service-auth-provider:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "rpe-service-auth-provider-{{ .Release.Name }}"
+    releaseNameOverride: "rpe-service-auth-provider-patryk-div"
     environment:
       TESTING_SUPPORT_ENABLED: 'true'
       MICROSERVICEKEYS_CMC: AAAAAAAAAAAAAAAA
@@ -255,47 +257,19 @@ postgresql:
     enabled: false
 
 ccd:
-  ingressHost: ${SERVICE_FQDN}
-  ingressIP: ${INGRESS_IP}
-  consulIP: ${CONSUL_LB_IP}
-
-  idam-pr:
-    releaseNameOverride: ${SERVICE_NAME}-ccd-idam-pr
-    redirect_uris:
-      CCD:
-        - https://case-management-web-${SERVICE_FQDN}/oauth2redirect
-      CCD Admin:
-        - https://admin-web-${SERVICE_FQDN}/oauth2redirect
-
-  apiGateway:
-    s2sKey: ${API_GATEWAY_S2S_KEY}
-    idamClientSecret:
-      value: ${API_GATEWAY_IDAM_SECRET}
-
-  userProfileApi:
-    authorisedServices: ccd_admin,ccd_data,ccd_definition,divorce
-
-  dataStoreApi:
-    s2sKey: ${DATA_STORE_S2S_KEY}
-    s2sAuthorisedServices: divorce,ccd_gw,divorce_ccd_submission
-
-  definitionStoreApi:
-    s2sKey: ${DEFINITION_STORE_S2S_KEY}
-    s2sAuthorisedServices: ccd_admin,ccd_data,divorce,ccd_gw,divorce_ccd_submission
-
-  caseManagementWeb:
-    enabled: true # if you need access to the web ui then enable this, otherwise it won't be deployed
-    environment:
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
-
+  readinessDelay: 180
+  livenessDelay: 180
+  readinessPeriod: 60
+  livenessPeriod: 60
+  releaseNameOverride: "ccd-patryk-div"
   adminWeb:
-    enabled: true # if you need access to the admin web ui then enable this, otherwise it won't be deployed
-    s2sKey: ${ADMIN_S2S_KEY}
-    idamClientSecret:
-      value: ${ADMIN_WEB_IDAM_SECRET}
+    enabled: true
     environment:
       NODE_TLS_REJECT_UNAUTHORIZED: 0
-
+  caseManagementWeb:
+    enabled: true
+    environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
   importer:
     userprofile:
       enabled: true
