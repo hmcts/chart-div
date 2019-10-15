@@ -69,7 +69,7 @@ div-dgs:
       PDF_SERVICE_BASEURL: "http://cmc-pdf-service-{{ .Release.Name }}"
       DOCMOSIS_SERVICE_BASE_URL: "https://docmosis-development.platform.hmcts.net"
       REFORM_SERVICE_NAME: "dgs"
-      REFORM_TEAM: "div"s
+      REFORM_TEAM: "div"
       AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_document_generator"
       AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
       EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT: "/health"
