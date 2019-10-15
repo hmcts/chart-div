@@ -100,6 +100,7 @@ rpe-send-letter-service:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: "rpe-send-letter-service-{{ .Release.Name }}"
     environment:
       FILE_CLEANUP_ENABLED: true
       LETTER_TRACKING_DB_CONN_OPTIONS: ""

@@ -38,9 +38,9 @@ dependencies:
   - name: dm-store
     version: ~2.0.2
     repository: '@hmctspublic'
-#  - name: rpe-send-letter-service
-#    version: ~0.0.4
-#    repository: '@hmctspublic'
+  - name: rpe-send-letter-service
+    version: ~0.0.7
+    repository: '@hmctspublic'
 #  - name: ccd
 #    version: ~3.0.4
 #    repository: '@hmctspublic'
