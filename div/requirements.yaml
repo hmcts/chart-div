@@ -11,9 +11,9 @@ dependencies:
 #  - name: div-cms
 #    version: ~1.2.1
 #    repository: '@hmctspublic'
-#  - name: div-dgs
-#    version: ~1.2.0
-#    repository: '@hmctspublic'
+  - name: div-dgs
+    version: ~1.2.0
+    repository: '@hmctspublic'
 #  - name: div-emca
 #    version: ~1.2.0
 #    repository: '@hmctspublic'
@@ -42,5 +42,5 @@ dependencies:
     version: ~0.0.7
     repository: '@hmctspublic'
 #  - name: ccd
-#    version: ~3.0.4
+#    version: ~3.0.6
 #    repository: '@hmctspublic'

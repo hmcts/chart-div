@@ -57,7 +57,7 @@ div-dgs:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: dgs-{{ .Release.Name }}
+    releaseNameOverride: "dgs-{{ .Release.Name }}"
     environment:
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
@@ -133,9 +133,6 @@ dm-store:
       STORAGEACCOUNT_PRIMARY_CONNECTION_STRING: 'DefaultEndpointsProtocol=https;AccountName=AAAAAAAAAAAAAAAA;AccountKey=AAAAAAAAAAAAAAAA;EndpointSuffix=core.windows.net'
       CASE_WORKER_ROLES: caseworker-divorce-courtadmin,caseworker-divorce-courtadmin-la
       SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/evidence"
-#      IDAM_USER_BASE_URI: https://idam-api.demo.platform.hmcts.net
-#      IDAM_S2S_BASE_URI: http://cmc-demo-s2s
-
 
 cmc-pdf-service:
   java:
@@ -163,6 +160,7 @@ draft-store-service:
       DRAFT_STORE_DB_PASSWORD: "hmcts"
       RUN_DB_MIGRATION_ON_STARTUP: true
       DRAFT_STORE_DB_CONN_OPTIONS: ""
+
 fees-register-api:
   java:
     image: hmctspublic.azurecr.io/fees-register/api:latest
