@@ -48,7 +48,16 @@ div-cms:
     releaseNameOverride: "cms-{{ .Release.Name }}"
     environment:
       IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
-
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      DRAFT_STORE_API_BASEURL: "http://draft-store-service-{{ .Release.Name }}"
+      CASE_FORMATTER_SERVICE_API_BASEURL: "TODO - move to AKS"
+      IDAM_API_REDIRECT_URL: "https://div-pfe-{{ .Release.Name }}/authenticated"
+      CASE_DATA_STORE_BASEURL: "http://ccd-data-store-api-{{ .Release.Name }}"
+      AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_ccd_submission"
+      AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
+      LOG_LEVEL: DEBUG
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
+      DOCUMENTATION_SWAGGER_ENABLED: true
 div-dgs:
   java:
     ingressHost: ""
