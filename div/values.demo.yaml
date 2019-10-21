@@ -32,8 +32,6 @@ ccd:
       CCD Admin:
         - https://admin-web-cmc-ccd-chart.service.core-compute-preview.internal/oauth2redirect
   importer:
-    userprofile:
-      userProfileDatabaseHost: demo-v1-postgres
     definition:
       importerFromSecret: true
       importerUsername:
@@ -44,4 +42,4 @@ ccd:
         secretKeyRefKey: key
       redirectUri: "https://ccd-case-management-web-aat.service.core-compute-aat.internal/oauth2redirect"
   postgresql:
-    nameOverride: postgres
+    nameOverride: postgresql

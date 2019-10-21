@@ -257,6 +257,7 @@ postgresql:
     enabled: false
 
 ccd:
+  ingressHost: ""
   readinessDelay: 180
   livenessDelay: 180
   readinessPeriod: 60
@@ -283,7 +284,7 @@ ccd:
         - divorce_as_caseworker_la@mailinator.com|DIVORCE|DIVORCE|Submitted
         - divorce_as_caseworker_admin@mailinator.com|DIVORCE|DIVORCE|Submitted
         - divorce_respondent_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
-      userProfileDatabaseHost: ${SERVICE_NAME}-ccd-postgres
+      userProfileDatabaseHost: patryk-div-postgresql
       userProfileDatabasePort: 5432
       userProfileDatabaseUser: hmcts
       userProfileDatabasePassword: hmcts
