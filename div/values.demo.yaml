@@ -5,9 +5,9 @@ ccd:
   ingressHost: cmc-ccd-chart.service.core-compute-preview.internal
   idamApiUrl: https://idam-api.aat.platform.hmcts.net
   idamWebUrl: https://idam-web-public.aat.platform.hmcts.net
-  s2sUrl: http://demo-v1-s2s
-  draftStoreUrl: http://demo-v1-draftstore
-  paymentsUrl: http://demo-v1-payments
+  s2sUrl: "http://rpe-service-auth-provider-patryk-div"
+  draftStoreUrl: "http://draft-store-service-patryk-div"
+  paymentsUrl: "http://payment-api-patryk-div"
   apiGateway:
     s2sKey: AAAAAAAAAAAAAAAA
     idamClientSecret:
@@ -28,18 +28,18 @@ ccd:
     releaseNameOverride: demo-v1-ccd-idam-pr
     redirect_uris:
       CCD:
-        - https://case-management-web-cmc-ccd-chart.service.core-compute-preview.internal/oauth2redirect
+        - https://case-management-web-div-ccd-chart.service.core-compute-preview.internal/oauth2redirect
       CCD Admin:
-        - https://admin-web-cmc-ccd-chart.service.core-compute-preview.internal/oauth2redirect
-  importer:
-    definition:
-      importerFromSecret: true
-      importerUsername:
-        secretKeyRefName: cmc-aat-ccd-importer-username
-        secretKeyRefKey: key
-      importerPassword:
-        secretKeyRefName: cmc-aat-ccd-importer-password
-        secretKeyRefKey: key
-      redirectUri: "https://ccd-case-management-web-aat.service.core-compute-aat.internal/oauth2redirect"
+        - https://admin-web-div-ccd-chart.service.core-compute-preview.internal/oauth2redirect
+#  importer:
+#    definition:
+#      importerFromSecret: true
+#      importerUsername:
+#        secretKeyRefName: cmc-aat-ccd-importer-username
+#        secretKeyRefKey: key
+#      importerPassword:
+#        secretKeyRefName: cmc-aat-ccd-importer-password
+#        secretKeyRefKey: key
+#      redirectUri: "https://ccd-case-management-web-aat.service.core-compute-aat.internal/oauth2redirect"
   postgresql:
     nameOverride: postgresql

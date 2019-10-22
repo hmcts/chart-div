@@ -30,12 +30,36 @@ div-cos:
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
       SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_ENABLED: true
       BULKACTION_MINCASES: 5
       DATAEXTRACTION_STATUS_DA_EMAILTO: da_data_extraction@sharklasers.com
       DATAEXTRACTION_STATUS_DN_EMAILTO: dn_data_extraction@sharklasers.com
       DATAEXTRACTION_STATUS_AOS_EMAILTO: aos_data_extraction@sharklasers.com
+      CASE_MAINTENANCE_SERVICE_API_BASEURL: "http://div-cms-patryk-div"
+      PAYMENT_API_BASEURL: "http://payment-api-patryk-div"
+      FEATURE_TOGGLE_SERVICE_API_BASEURL: "http://rpe-feature-toggle-api-pod"
+      SEND_LETTER_SERIVCE_BASEURL: "http://rpe-send-letter-service-patryk-div"
+      IDAM_API_REDIRECT_URL: "https://div-pfe-patryk-div"
+      CASE_FORMATTER_SERVICE_API_BASEURL: "http://div-cfs-patryk-div"
+      SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-patryk-div"
+      DOCUMENT_GENERATOR_SERVICE_API_BASEURL: "http://div-dgs-patryk-div"
+      FEES_AND_PAYMENTS_SERVICE_API_BASEURL: "http://div-fps-patryk-div"
+      SERVICE_AUTH_MICROSERVICE: "divorce_frontend"
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
+      SCHEDULER_RE_CREATE: true
+      SCHEDULER_ENABLED: true
+      DIV_SCHEDULER_DB_HOST: "div-cos-{{ .Values.global.environment }}.postgres.database.azure.com"
+      DIV_SCHEDULER_DB_PORT: "5432"
+      DIV_SCHEDULER_DB_NAME: "div_scheduler"
+      DIV_SCHEDULER_DB_USER_NAME: "div_scheduler@div-cos-{{ .Values.global.environment }}"
+      FLYWAY_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/div_scheduler"
+      FLYWAY_NOOP_STRATEGY: true
+      SPRING_MAIL_HOST: mta.reform.hmcts.net
+      SPRING_MAIL_PORT: 25
+      SPRING_MAIL_TEST_CONNECTION: false
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_TRUST: mta.reform.hmcts.net
+      SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_CRON: "0 0 2 ? * * *"
 
 div-cms:
   java:
@@ -52,7 +76,8 @@ div-cms:
       DRAFT_STORE_API_BASEURL: "http://draft-store-service-{{ .Release.Name }}"
       CASE_FORMATTER_SERVICE_API_BASEURL: "TODO - move to AKS"
       IDAM_API_REDIRECT_URL: "https://div-pfe-{{ .Release.Name }}/authenticated"
-      CASE_DATA_STORE_BASEURL: "http://ccd-{{ .Release.Name }}"
+      # hardocded as ccd image creates this service
+      CASE_DATA_STORE_BASEURL: "http://ccd-data-store"
       AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_ccd_submission"
       AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
       LOG_LEVEL: DEBUG
@@ -96,6 +121,15 @@ div-emca:
     environment:
       IDAM_API_HEALTH_URI: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health"
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}"
+      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Values.global.environment }}"
+      EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-{{ .Values.global.environment }}/health"
+      EVIDENCE_MANAGEMENT_UPLOAD_FILE_URL: "http://dm-store-{{ .Values.global.environment }}/documents"
+      AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_document_generator"
+      AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
+      HTTP_CONNECT_REQUEST_TIMEOUT: "60000"
+      HTTP_CONNECT_SOCKET_TIMEOUT: "5000"
+      HTTP_CONNECT_TIMEOUT: "60000"
 
 div-fps:
   java:
@@ -225,10 +259,6 @@ rpe-service-auth-provider:
     releaseNameOverride: "rpe-service-auth-provider-patryk-div"
     environment:
       TESTING_SUPPORT_ENABLED: 'true'
-      MICROSERVICEKEYS_CMC: AAAAAAAAAAAAAAAA
-      MICROSERVICEKEYS_CMC_CLAIM_SUBMIT_API: AAAAAAAAAAAAAAAA
-      MICROSERVICEKEYS_CMC_LEGAL_FRONTEND: AAAAAAAAAAAAAAAA
-      MICROSERVICEKEYS_CMC_CLAIM_STORE: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_EM_GW: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_CCD_DATA: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_CCD_DEFINITION: AAAAAAAAAAAAAAAA
@@ -250,6 +280,7 @@ postgresql:
       CREATE DATABASE "data-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "definition-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "evidence" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "div_scheduler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
   postgresqlUsername: hmcts
   postgresqlPassword: hmcts
   postgresqlDatabase: user-profile
@@ -257,35 +288,57 @@ postgresql:
     enabled: false
 
 ccd:
-  ingressHost: ""
-  readinessDelay: 180
-  livenessDelay: 180
-  readinessPeriod: 60
-  livenessPeriod: 60
-  releaseNameOverride: "ccd-patryk-div"
+  postgresql:
+    enabled: false
+  rpeServiceAuthProvider:
+    enabled: true
+  draftStoreService:
+    enabled: true
+  dmStore:
+    enabled: true
+  paymentApi:
+    enabled: true
+  managementWeb:
+    enabled: true
+  apiGatewayWeb:
+    enabled: true
   adminWeb:
     enabled: true
-    environment:
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
-  caseManagementWeb:
+  printService:
     enabled: true
-    environment:
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
-  importer:
-    userprofile:
-      enabled: true
-      jurisdictions:
-        - DIVORCE
-      users:
-        - divorce_as_caseworker_beta@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_bulk_scanner@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_superuser@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_la@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_admin@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_respondent_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
-      userProfileDatabaseHost: patryk-div-postgresql
-      userProfileDatabasePort: 5432
-      userProfileDatabaseUser: hmcts
-      userProfileDatabasePassword: hmcts
-      userProfileDatabaseName: user-profile
+  activityApi:
+    enabled: true
+  testStubsService:
+    enabled: true
+#  ingressHost: ""
+#  readinessDelay: 180
+#  livenessDelay: 180
+#  readinessPeriod: 60
+#  livenessPeriod: 60
+#  releaseNameOverride: "ccd-patryk-div"
+#  adminWeb:
+#    enabled: true
+#    environment:
+#      NODE_TLS_REJECT_UNAUTHORIZED: 0
+#  caseManagementWeb:
+#    enabled: true
+#    environment:
+#      NODE_TLS_REJECT_UNAUTHORIZED: 0
+#  importer:
+#    userprofile:
+#      enabled:
+#      jurisdictions:
+#        - DIVORCE
+#      users:
+#        - divorce_as_caseworker_beta@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_bulk_scanner@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_superuser@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_la@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_admin@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_respondent_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
+#      userProfileDatabaseHost: patryk-div-postgresql
+#      userProfileDatabasePort: 5432
+#      userProfileDatabaseUser: hmcts
+#      userProfileDatabasePassword: hmcts
+#      userProfileDatabaseName: user-profile
