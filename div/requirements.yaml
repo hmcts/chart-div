@@ -14,6 +14,9 @@ dependencies:
   - name: div-dgs
     version: ~1.2.0
     repository: '@hmctspublic'
+  - name: div-cfs
+    version: ~1.1.0
+    repository: '@hmctspublic'
   - name: div-emca
     version: ~1.2.0
     repository: '@hmctspublic'

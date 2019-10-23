@@ -121,15 +121,29 @@ div-emca:
     environment:
       IDAM_API_HEALTH_URI: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health"
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
-      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}"
-      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Values.global.environment }}"
-      EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-{{ .Values.global.environment }}/health"
-      EVIDENCE_MANAGEMENT_UPLOAD_FILE_URL: "http://dm-store-{{ .Values.global.environment }}/documents"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-patryk-div"
+      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-patryk-div"
+      EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-patryk-div/health"
+      EVIDENCE_MANAGEMENT_UPLOAD_FILE_URL: "http://dm-store-patryk-div/documents"
       AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_document_generator"
       AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
       HTTP_CONNECT_REQUEST_TIMEOUT: "60000"
       HTTP_CONNECT_SOCKET_TIMEOUT: "5000"
       HTTP_CONNECT_TIMEOUT: "60000"
+
+div-cfs:
+  java:
+    ingressHost: ""
+    image: hmctspublic.azurecr.io/div/cfs:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: "cfs-patryk-div"
+    environment:
+      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-patryk-div"
+      REFORM_ENVIRONMENT: "demo"
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
 
 div-fps:
   java:
@@ -141,7 +155,7 @@ div-fps:
     livenessPeriod: 60
     releaseNameOverride: "fps-patryk-div"
     environment:
-      FEE_API_URL: "http://fees-{{ .Release.Name }}"
+      FEE_API_URL: "http://fees-patryk-div"
 
 ########################
 
@@ -291,13 +305,13 @@ ccd:
   postgresql:
     enabled: false
   rpeServiceAuthProvider:
-    enabled: true
+    enabled: false
   draftStoreService:
-    enabled: true
+    enabled: false
   dmStore:
-    enabled: true
+    enabled: false
   paymentApi:
-    enabled: true
+    enabled: false
   managementWeb:
     enabled: true
   apiGatewayWeb:
