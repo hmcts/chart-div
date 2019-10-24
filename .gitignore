@@ -2,3 +2,5 @@
 *.iml
 requirements.lock
 *.tgz
+nuke-build.sh
+alogs.sh

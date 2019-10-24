@@ -23,6 +23,18 @@ dependencies:
   - name: div-fps
     version: ~1.2.1
     repository: '@hmctspublic'
+  - name: div-pfe
+    version: ~1.1.2
+    repository: '@hmctspublic'
+#  - name: div-rfe
+#    version: ~1.1.2
+#    repository: '@hmctspublic'
+#  - name: div-dn
+#    version: ~1.1.2
+#    repository: '@hmctspublic'
+#  - name: div-da
+#    version: ~1.1.1
+#    repository: '@hmctspublic'
   - name: draft-store-service
     version: ~1.4.1
     repository: '@hmctspublic'
@@ -46,4 +58,10 @@ dependencies:
     repository: '@hmctspublic'
   - name: ccd
     version: 4.0.4-alpha
+    repository: '@hmctspublic'
+  - name: ccpay-bubble-frontend
+    version: 0.0.5
+    repository: '@hmctspublic'
+  - name: ccpay-bulkscanning-api
+    version: 0.0.4
     repository: '@hmctspublic'
