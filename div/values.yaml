@@ -381,6 +381,7 @@ ccpay-bubble-frontend:
       redirect_uri: "http://ccpay-bubble-frontend-patryk-div/oauth2/callback"
 
 ccpay-bulkscanning-api:
+  releaseNameOverride: "ccpay-bulkscanning-api-patryk-div"
   java:
     image: 'hmctspublic.azurecr.io/payment/ccpay-bulkscanning-api:latest'
     applicationPort: 8080
