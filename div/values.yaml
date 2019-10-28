@@ -48,10 +48,11 @@ div-cos:
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       SCHEDULER_RE_CREATE: true
       SCHEDULER_ENABLED: true
-      DIV_SCHEDULER_DB_HOST: "div-cos-{{ .Values.global.environment }}.postgres.database.azure.com"
+      DIV_SCHEDULER_DB_HOST: "{{ .Release.Name }}-postgresql"
       DIV_SCHEDULER_DB_PORT: "5432"
       DIV_SCHEDULER_DB_NAME: "div_scheduler"
-      DIV_SCHEDULER_DB_USER_NAME: "div_scheduler@div-cos-{{ .Values.global.environment }}"
+      DIV_SCHEDULER_DB_PASSWORD: "hmcts"
+      DIV_SCHEDULER_DB_USER_NAME: "hmcts"
       FLYWAY_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/div_scheduler"
       FLYWAY_NOOP_STRATEGY: true
       SPRING_MAIL_HOST: mta.reform.hmcts.net
