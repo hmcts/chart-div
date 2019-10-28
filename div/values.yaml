@@ -71,11 +71,11 @@ div-cms:
     livenessPeriod: 60
     releaseNameOverride: "cms-patryk-div"
     environment:
-      IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
-      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
-      DRAFT_STORE_API_BASEURL: "http://draft-store-service-{{ .Release.Name }}"
-      CASE_FORMATTER_SERVICE_API_BASEURL: "TODO - move to AKS"
-      IDAM_API_REDIRECT_URL: "https://div-pfe-{{ .Release.Name }}/authenticated"
+      IDAM_API_BASEURL: "https://idam-api.aat.platform.hmcts.net"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-patryk-div"
+      DRAFT_STORE_API_BASEURL: "http://draft-store-service-patryk-div"
+      CASE_FORMATTER_SERVICE_API_BASEURL: "http://cfs-patryk-div"
+      IDAM_API_REDIRECT_URL: "https://div-pfe-patryk-div/authenticated"
       # hardocded as ccd image creates this service
       CASE_DATA_STORE_BASEURL: "http://ccd-data-store"
       AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_ccd_submission"
@@ -171,10 +171,16 @@ rpe-send-letter-service:
     releaseNameOverride: "rpe-send-letter-service-patryk-div"
     environment:
       FILE_CLEANUP_ENABLED: true
-      LETTER_TRACKING_DB_CONN_OPTIONS: ""
-      LETTER_TRACKING_DB_NAME: send_letter
+      LETTER_TRACKING_DB_HOST: "{{ .Release.Name }}-postgresql"
+      LETTER_TRACKING_DB_NAME: "send_letter"
       LETTER_TRACKING_DB_USER_NAME: "hmcts"
       LETTER_TRACKING_DB_PASSWORD: "hmcts"
+      LETTER_TRACKING_DB_CONN_OPTIONS: ""
+      FLYWAY_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/send_letter?sslmode=require"
+      FLYWAY_NOOP_STRATEGY: "false"
+      S2S_URL: "http://rpe-service-auth-provider-patryk-div"
+      ENCRYPTION_ENABLED: "false"
+      APPINSIGHTS_INSTRUMENTATIONKEY: 00000000-0000-0000-0000-000000000000
 
 dm-store:
   java:
