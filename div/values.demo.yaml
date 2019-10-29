@@ -5,9 +5,9 @@ ccd:
   ingressHost: cmc-ccd-chart.service.core-compute-preview.internal
   idamApiUrl: https://idam-api.aat.platform.hmcts.net
   idamWebUrl: https://idam-web-public.aat.platform.hmcts.net
-  s2sUrl: "http://rpe-service-auth-provider-patryk-div"
-  draftStoreUrl: "http://draft-store-service-patryk-div"
-  paymentsUrl: "http://payment-api-patryk-div"
+  s2sUrl: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+  draftStoreUrl: "http://draft-store-service-{{ .Release.Name }}"
+  paymentsUrl: "http://payment-api-{{ .Release.Name }}"
   apiGateway:
     s2sKey: AAAAAAAAAAAAAAAA
     idamClientSecret:
