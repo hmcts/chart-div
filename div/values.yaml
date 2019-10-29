@@ -177,6 +177,23 @@ div-pfe:
       IDAM_LOGIN_URL: "https://idam-web-public.aat.platform.hmcts.net/login"
       PUBLIC_HOSTNAME: "https://pfe-{{ .Release.Name }}" # override in public facing envs
 
+div-rfe:
+  nodejs:
+    applicationPort: 3000
+    aadIdentityName: divorce
+    image: hmctspublic.azurecr.io/div/rfe:latest
+    ingressHost: ""
+    releaseNameOverride: "rfe-{{ .Release.Name }}"
+    environment:
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
+      IDAM_LOGIN_URL: "https://idam-web-public.aat.platform.hmcts.net/login"
+      COS_BASE_URL: "http://cos-{{ .Release.Name }}"
+      FEES_AND_PAYMENTS_URL: "http://fps-{{ .Release.Name }}"
+      DECREE_NISI_FRONTEND_URL: "https://dn-{{ .Release.Name }}"
+      DECREE_ABSOLUTE_FRONTEND_URL: "https://da-{{ .Release.Name }}"
+      CASE_MAINTENANCE_BASE_URL: "http://cms-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_CLIENT_API_URL: "http://emca-{{ .Release.Name }}"
+
 div-dn:
   nodejs:
     applicationPort: 3000
