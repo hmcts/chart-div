@@ -23,6 +23,12 @@ dependencies:
   - name: div-fps
     version: ~1.2.1
     repository: '@hmctspublic'
+  - name: div-pfe
+    version: ~1.1.2
+    repository: '@hmctspublic'
+  - name: div-dn
+    version: ~1.1.2
+    repository: '@hmctspublic'
   - name: draft-store-service
     version: ~1.4.1
     repository: '@hmctspublic'
