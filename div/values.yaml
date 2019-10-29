@@ -9,94 +9,179 @@ tags:
 ### Divorce Services ###
 div-hm:
   nodejs:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/div/hm:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: hm-{{ .Release.Name }}
+    releaseNameOverride: "hm-{{ .Release.Name }}"
 
 div-cos:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/div/cos:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: cos-{{ .Release.Name }}
+    releaseNameOverride: "cos-{{ .Release.Name }}"
     environment:
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
       SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_ENABLED: true
       BULKACTION_MINCASES: 5
       DATAEXTRACTION_STATUS_DA_EMAILTO: da_data_extraction@sharklasers.com
       DATAEXTRACTION_STATUS_DN_EMAILTO: dn_data_extraction@sharklasers.com
       DATAEXTRACTION_STATUS_AOS_EMAILTO: aos_data_extraction@sharklasers.com
+      CASE_MAINTENANCE_SERVICE_API_BASEURL: "http://cms-{{ .Release.Name }}"
+      PAYMENT_API_BASEURL: "http://payment-api-{{ .Release.Name }}"
+      FEATURE_TOGGLE_SERVICE_API_BASEURL: "http://rpe-feature-toggle-api-{{ .Release.Name }}"
+      SEND_LETTER_SERIVCE_BASEURL: "http://rpe-send-letter-service-{{ .Release.Name }}"
+      IDAM_API_REDIRECT_URL: "https://pfe-{{ .Release.Name }}"
+      CASE_FORMATTER_SERVICE_API_BASEURL: "http://cfs-{{ .Release.Name }}"
+      SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      DOCUMENT_GENERATOR_SERVICE_API_BASEURL: "http://dgs-{{ .Release.Name }}"
+      FEES_AND_PAYMENTS_SERVICE_API_BASEURL: "http://fps-{{ .Release.Name }}"
+      SERVICE_AUTH_MICROSERVICE: "divorce_frontend"
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
+      SCHEDULER_RE_CREATE: true
+      SCHEDULER_ENABLED: true
+      DIV_SCHEDULER_DB_HOST: "{{ .Release.Name }}-postgresql"
+      DIV_SCHEDULER_DB_PORT: "5432"
+      DIV_SCHEDULER_DB_NAME: "div_scheduler"
+      DIV_SCHEDULER_DB_PASSWORD: "hmcts"
+      DIV_SCHEDULER_DB_USER_NAME: "hmcts"
+      FLYWAY_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/div_scheduler"
+      FLYWAY_NOOP_STRATEGY: true
+      SPRING_MAIL_HOST: mta.reform.hmcts.net
+      SPRING_MAIL_PORT: 25
+      SPRING_MAIL_TEST_CONNECTION: false
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_TRUST: mta.reform.hmcts.net
+      SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_CRON: "0 0 2 ? * * *"
 
 div-cms:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/div/cms:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: cms-{{ .Release.Name }}
+    releaseNameOverride: "cms-{{ .Release.Name }}"
     environment:
-      IDAM_API_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      IDAM_API_BASEURL: "https://idam-api.aat.platform.hmcts.net"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      DRAFT_STORE_API_BASEURL: "http://draft-store-service-{{ .Release.Name }}"
+      CASE_FORMATTER_SERVICE_API_BASEURL: "http://cfs-{{ .Release.Name }}"
+      IDAM_API_REDIRECT_URL: "https://div-pfe-{{ .Release.Name }}/authenticated"
+      # hardocded as ccd image creates this service
+      CASE_DATA_STORE_BASEURL: "http://ccd-data-store"
+      AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_ccd_submission"
+      AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
+      LOG_LEVEL: DEBUG
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
+      DOCUMENTATION_SWAGGER_ENABLED: true
 
 div-dgs:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/div/dgs:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: dgs-{{ .Release.Name }}
+    releaseNameOverride: "dgs-{{ .Release.Name }}"
     environment:
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
       DOCMOSIS_SERVICE_DEV_MODE_FLAG: "true"
       PDF_TEST_ENABLED: "true"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL: "http://emca-{{ .Release.Name }}"
+      IDAM_S2S_URL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      PDF_SERVICE_BASEURL: "http://cmc-pdf-service-{{ .Release.Name }}"
+      DOCMOSIS_SERVICE_BASE_URL: "https://docmosis-development.platform.hmcts.net"
+      REFORM_SERVICE_NAME: "dgs"
+      REFORM_TEAM: "div"
+      AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_document_generator"
+      AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
+      EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT: "/health"
 
 div-emca:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/div/emca:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: emca-{{ .Release.Name }}
+    releaseNameOverride: "emca-{{ .Release.Name }}"
     environment:
-      IDAM_API_HEALTH_URI: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health
-      IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+      IDAM_API_HEALTH_URI: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health"
+      IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-{{ .Release.Name }}/health"
+      EVIDENCE_MANAGEMENT_UPLOAD_FILE_URL: "http://dm-store-{{ .Release.Name }}/documents"
+      AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_document_generator"
+      AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
+      HTTP_CONNECT_REQUEST_TIMEOUT: "60000"
+      HTTP_CONNECT_SOCKET_TIMEOUT: "5000"
+      HTTP_CONNECT_TIMEOUT: "60000"
+
+div-cfs:
+  java:
+    ingressHost: ""
+    image: hmctspublic.azurecr.io/div/cfs:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: "cfs-{{ .Release.Name }}"
+    environment:
+      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Release.Name }}"
+      REFORM_ENVIRONMENT: "{{ .Values.global.environment }}"
+      MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
 
 div-fps:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/div/fps:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: fps-{{ .Release.Name }}
+    releaseNameOverride: "fps-{{ .Release.Name }}"
+    environment:
+      FEE_API_URL: "http://fees-{{ .Release.Name }}"
 
 ########################
 
 ##### DEPENDENCIES #####
 rpe-send-letter-service:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/rpe/send-letter-service:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: "rpe-send-letter-service-{{ .Release.Name }}"
     environment:
       FILE_CLEANUP_ENABLED: true
-      LETTER_TRACKING_DB_CONN_OPTIONS: ""
-      LETTER_TRACKING_DB_NAME: send_letter
+      LETTER_TRACKING_DB_HOST: "{{ .Release.Name }}-postgresql"
+      LETTER_TRACKING_DB_NAME: "send_letter"
       LETTER_TRACKING_DB_USER_NAME: "hmcts"
       LETTER_TRACKING_DB_PASSWORD: "hmcts"
+      LETTER_TRACKING_DB_CONN_OPTIONS: ""
+      FLYWAY_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/send_letter?sslmode=require"
+      FLYWAY_NOOP_STRATEGY: "false"
+      S2S_URL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      ENCRYPTION_ENABLED: "false"
+      APPINSIGHTS_INSTRUMENTATIONKEY: 00000000-0000-0000-0000-000000000000
 
 dm-store:
   java:
@@ -112,6 +197,7 @@ dm-store:
         disabled: true
       STORAGE_CONTAINER_DOCUMENT_CONTAINER_NAME:
         disabled: true
+    releaseNameOverride: "dm-store-{{ .Release.Name }}"
     environment:
       ENABLE_DB_MIGRATE: 'true'
       ENABLE_TTL: 'false'
@@ -120,29 +206,36 @@ dm-store:
       ENABLE_AZURE_STORAGE_CONTAINER: 'false'
       POSTGRES_STORAGE_ENABLED: 'true'
       STORAGEACCOUNT_PRIMARY_CONNECTION_STRING: 'DefaultEndpointsProtocol=https;AccountName=AAAAAAAAAAAAAAAA;AccountKey=AAAAAAAAAAAAAAAA;EndpointSuffix=core.windows.net'
-      CASE_WORKER_ROLES: caseworker-cmc,caseworker-cmc-judge
+      CASE_WORKER_ROLES: caseworker-divorce-courtadmin,caseworker-divorce-courtadmin-la
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/evidence"
 
 cmc-pdf-service:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/cmc/pdf-service:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
+#    releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
 
 draft-store-service:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/draft-store/service:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: "draft-store-service-{{ .Release.Name }}"
     environment:
+      DRAFT_STORE_DB_HOST: "{{ .Release.Name }}-postgresql"
       DRAFT_STORE_DB_NAME: draftstore
-      DRAFT_STORE_DB_PORT: '5432'
-      DRAFT_STORE_DB_USER_NAME: hmcts
-      RUN_DB_MIGRATION_ON_STARTUP: 'true'
-      DRAFT_STORE_DB_PASSWORD: hmcts
+      DRAFT_STORE_DB_USER_NAME: "hmcts"
+      DRAFT_STORE_DB_PASSWORD: "hmcts"
+      RUN_DB_MIGRATION_ON_STARTUP: true
+      DRAFT_STORE_DB_CONN_OPTIONS: ""
 
 fees-register-api:
   java:
@@ -151,9 +244,9 @@ fees-register-api:
     livenessDelay: 180
     readinessPeriod: 45
     livenessPeriod: 45
-    releaseNameOverride: fees-{{ .Release.Name }}
+    releaseNameOverride: "fees-{{ .Release.Name }}"
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://div-postgresql-0:5432/fees_register"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/fees_register"
       SPRING_DATASOURCE_USERNAME: hmcts
       SPRING_DATASOURCE_PASSWORD: hmcts
       SPRING_LIQUIBASE_ENABLED: true
@@ -161,31 +254,32 @@ fees-register-api:
 
 payment-api:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/payment/api:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: "payment-api-{{ .Release.Name }}"
     environment:
       PAYMENT_AUDIT_FILE: /tmp/payment-audit.log
       ASB_CONNECTION_STRING: false
       SPRING_DATASOURCE_USERNAME: hmcts
       SPRING_DATASOURCE_PASSWORD: hmcts
       SPRING_LIQUIBASE_ENABLED: true
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/payment_api"
 
 rpe-service-auth-provider:
   java:
+    ingressHost: ""
     image: hmctspublic.azurecr.io/rpe/service-auth-provider:latest
     readinessDelay: 180
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
+    releaseNameOverride: "rpe-service-auth-provider-{{ .Release.Name }}"
     environment:
       TESTING_SUPPORT_ENABLED: 'true'
-      MICROSERVICEKEYS_CMC: AAAAAAAAAAAAAAAA
-      MICROSERVICEKEYS_CMC_CLAIM_SUBMIT_API: AAAAAAAAAAAAAAAA
-      MICROSERVICEKEYS_CMC_LEGAL_FRONTEND: AAAAAAAAAAAAAAAA
-      MICROSERVICEKEYS_CMC_CLAIM_STORE: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_EM_GW: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_CCD_DATA: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_CCD_DEFINITION: AAAAAAAAAAAAAAAA
@@ -193,6 +287,23 @@ rpe-service-auth-provider:
       MICROSERVICEKEYS_CCD_GW: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_DG_DOCASSEMBLY_API: AAAAAAAAAAAAAAAA
 
+rpe-feature-toggle-api:
+  java:
+    ingressHost: ""
+    image: hmctspublic.azurecr.io/rpe/feature-toggle-api:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: "rpe-feature-toggle-api-{{ .Release.Name }}"
+    importer:
+      cron:
+        enabled: false
+      oneoff:
+        enabled: false
+    postgresql:
+      postgresqlDatabase: "features"
+    
 postgresql:
   # postgresqlConfiguration: { "maxConnections": 300 }
   resources:
@@ -206,69 +317,68 @@ postgresql:
       CREATE DATABASE "send_letter" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "data-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "definition-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "evidence" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "div_scheduler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "features" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
   postgresqlUsername: hmcts
   postgresqlPassword: hmcts
   postgresqlDatabase: user-profile
   persistence:
-    enabled: true
+    enabled: false
 
 ccd:
-  ingressHost: ${SERVICE_FQDN}
-  ingressIP: ${INGRESS_IP}
-  consulIP: ${CONSUL_LB_IP}
-
-  idam-pr:
-    releaseNameOverride: ${SERVICE_NAME}-ccd-idam-pr
-    redirect_uris:
-      CCD:
-        - https://case-management-web-${SERVICE_FQDN}/oauth2redirect
-      CCD Admin:
-        - https://admin-web-${SERVICE_FQDN}/oauth2redirect
-
-  apiGateway:
-    s2sKey: ${API_GATEWAY_S2S_KEY}
-    idamClientSecret:
-      value: ${API_GATEWAY_IDAM_SECRET}
-
-  userProfileApi:
-    authorisedServices: ccd_admin,ccd_data,ccd_definition,divorce
-
-  dataStoreApi:
-    s2sKey: ${DATA_STORE_S2S_KEY}
-    s2sAuthorisedServices: divorce,ccd_gw,divorce_ccd_submission
-
-  definitionStoreApi:
-    s2sKey: ${DEFINITION_STORE_S2S_KEY}
-    s2sAuthorisedServices: ccd_admin,ccd_data,divorce,ccd_gw,divorce_ccd_submission
-
-  caseManagementWeb:
-    enabled: true # if you need access to the web ui then enable this, otherwise it won't be deployed
-    environment:
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
-
+  postgresql:
+    enabled: false
+  rpeServiceAuthProvider:
+    enabled: false
+  draftStoreService:
+    enabled: false
+  dmStore:
+    enabled: false
+  paymentApi:
+    enabled: false
+  managementWeb:
+    enabled: true
+  apiGatewayWeb:
+    enabled: true
   adminWeb:
-    enabled: true # if you need access to the admin web ui then enable this, otherwise it won't be deployed
-    s2sKey: ${ADMIN_S2S_KEY}
-    idamClientSecret:
-      value: ${ADMIN_WEB_IDAM_SECRET}
-    environment:
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
+    enabled: true
+  printService:
+    enabled: true
+  activityApi:
+    enabled: true
+  testStubsService:
+    enabled: true
+  releaseNameOverride: "ccd-{{ .Release.Name }}"
 
-  importer:
-    userprofile:
-      enabled: true
-      jurisdictions:
-        - DIVORCE
-      users:
-        - divorce_as_caseworker_beta@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_bulk_scanner@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_superuser@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_la@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_as_caseworker_admin@mailinator.com|DIVORCE|DIVORCE|Submitted
-        - divorce_respondent_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
-      userProfileDatabaseHost: ${SERVICE_NAME}-ccd-postgres
-      userProfileDatabasePort: 5432
-      userProfileDatabaseUser: hmcts
-      userProfileDatabasePassword: hmcts
-      userProfileDatabaseName: user-profile
+#  ingressHost: ""
+#  readinessDelay: 180
+#  livenessDelay: 180
+#  readinessPeriod: 60
+#  livenessPeriod: 60
+#  adminWeb:
+#    enabled: true
+#    environment:
+#      NODE_TLS_REJECT_UNAUTHORIZED: 0
+#  caseManagementWeb:
+#    enabled: true
+#    environment:
+#      NODE_TLS_REJECT_UNAUTHORIZED: 0
+#  importer:
+#    userprofile:
+#      enabled:
+#      jurisdictions:
+#        - DIVORCE
+#      users:
+#        - divorce_as_caseworker_beta@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_bulk_scanner@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_superuser@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_la@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_as_caseworker_admin@mailinator.com|DIVORCE|DIVORCE|Submitted
+#        - divorce_respondent_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
+#      userProfileDatabaseHost: {{ .Release.Name }}-postgresql
+#      userProfileDatabasePort: 5432
+#      userProfileDatabaseUser: hmcts
+#      userProfileDatabasePassword: hmcts
+#      userProfileDatabaseName: user-profile
