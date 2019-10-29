@@ -29,6 +29,9 @@ dependencies:
   - name: div-dn
     version: ~1.1.2
     repository: '@hmctspublic'
+  - name: div-da
+    version: ~1.1.1
+    repository: '@hmctspublic'
   - name: draft-store-service
     version: ~1.4.1
     repository: '@hmctspublic'

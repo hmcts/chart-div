@@ -203,6 +203,30 @@ div-dn:
       BASE_URL: "https://dn-{{ .Release.Name }}"
       PUBLIC_HOSTNAME: "https://dn-{{ .Release.Name }}"
 
+div-da:
+  nodejs:
+    applicationPort: 3000
+    aadIdentityName: divorce
+    image: "hmctspublic.azurecr.io/div/da:latest"
+    ingressHost: "dn-{{ .Release.Name }}"
+    environment:
+      BASE_URL: "https://da-{{ .Release.Name }}"
+      PUBLIC_HOSTNAME: "https://da-{{ .Release.Name }}"
+
+      CASE_MAINTENANCE_BASE_URL: "http://cms-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_CLIENT_API_URL: "http://emca-{{ .Release.Name }}/"
+      FEES_AND_PAYMENTS_URL: "http://fps-{{ .Release.Name }}"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
+      IDAM_LOGIN_URL: "https://idam-web-public.aat.platform.hmcts.net/login"
+      ORCHESTRATION_SERVICE_URL: "http://cos-{{ .Release.Name }}"
+      ORCHESTRATION_SERVICE_DRAFT_ENDPOINT: "http://cos-{{ .Release.Name }}/draftsapi/version/1"
+      ORCHESTRATION_SERVICE_GET_PETITION_URL: "http://cos-{{ .Release.Name }}/retrieve-case"
+      ORCHESTRATION_SERVICE_GET_AOS_PETITION_URL: "http://cos-{{ .Release.Name }}/retrieve-aos-case"
+      ORCHESTRATION_SERVICE_POST_PETITION_URL: "http://cos-{{ .Release.Name }}/submit-da"
+      PETITIONER_FRONTEND_URL: "https://pfe-{{ .Release.Name }}"
+      RESPONDENT_FRONTEND_URL: "https://rfe-{{ .Release.Name }}"
+      DECREE_NISI_FRONTEND_URL: "https://dn-{{ .Release.Name }}"
+
 ########################
 
 ##### DEPENDENCIES #####
