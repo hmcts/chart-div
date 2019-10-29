@@ -15,7 +15,7 @@ div-hm:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "hm-patryk-div"
+    releaseNameOverride: "hm-{{ .Release.Name }}"
 
 div-cos:
   java:
@@ -25,7 +25,7 @@ div-cos:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "cos-patryk-div"
+    releaseNameOverride: "cos-{{ .Release.Name }}"
     environment:
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
@@ -35,15 +35,15 @@ div-cos:
       DATAEXTRACTION_STATUS_DA_EMAILTO: da_data_extraction@sharklasers.com
       DATAEXTRACTION_STATUS_DN_EMAILTO: dn_data_extraction@sharklasers.com
       DATAEXTRACTION_STATUS_AOS_EMAILTO: aos_data_extraction@sharklasers.com
-      CASE_MAINTENANCE_SERVICE_API_BASEURL: "http://div-cms-patryk-div"
-      PAYMENT_API_BASEURL: "http://payment-api-patryk-div"
-      FEATURE_TOGGLE_SERVICE_API_BASEURL: "http://rpe-feature-toggle-api-pod"
-      SEND_LETTER_SERIVCE_BASEURL: "http://rpe-send-letter-service-patryk-div"
-      IDAM_API_REDIRECT_URL: "https://div-pfe-patryk-div"
-      CASE_FORMATTER_SERVICE_API_BASEURL: "http://div-cfs-patryk-div"
-      SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-patryk-div"
-      DOCUMENT_GENERATOR_SERVICE_API_BASEURL: "http://div-dgs-patryk-div"
-      FEES_AND_PAYMENTS_SERVICE_API_BASEURL: "http://div-fps-patryk-div"
+      CASE_MAINTENANCE_SERVICE_API_BASEURL: "http://cms-{{ .Release.Name }}"
+      PAYMENT_API_BASEURL: "http://payment-api-{{ .Release.Name }}"
+      FEATURE_TOGGLE_SERVICE_API_BASEURL: "http://rpe-feature-toggle-api-{{ .Release.Name }}"
+      SEND_LETTER_SERIVCE_BASEURL: "http://rpe-send-letter-service-{{ .Release.Name }}"
+      IDAM_API_REDIRECT_URL: "https://pfe-{{ .Release.Name }}"
+      CASE_FORMATTER_SERVICE_API_BASEURL: "http://cfs-{{ .Release.Name }}"
+      SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      DOCUMENT_GENERATOR_SERVICE_API_BASEURL: "http://dgs-{{ .Release.Name }}"
+      FEES_AND_PAYMENTS_SERVICE_API_BASEURL: "http://fps-{{ .Release.Name }}"
       SERVICE_AUTH_MICROSERVICE: "divorce_frontend"
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       SCHEDULER_RE_CREATE: true
@@ -70,13 +70,13 @@ div-cms:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "cms-patryk-div"
+    releaseNameOverride: "cms-{{ .Release.Name }}"
     environment:
       IDAM_API_BASEURL: "https://idam-api.aat.platform.hmcts.net"
-      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-patryk-div"
-      DRAFT_STORE_API_BASEURL: "http://draft-store-service-patryk-div"
-      CASE_FORMATTER_SERVICE_API_BASEURL: "http://cfs-patryk-div"
-      IDAM_API_REDIRECT_URL: "https://div-pfe-patryk-div/authenticated"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      DRAFT_STORE_API_BASEURL: "http://draft-store-service-{{ .Release.Name }}"
+      CASE_FORMATTER_SERVICE_API_BASEURL: "http://cfs-{{ .Release.Name }}"
+      IDAM_API_REDIRECT_URL: "https://div-pfe-{{ .Release.Name }}/authenticated"
       # hardocded as ccd image creates this service
       CASE_DATA_STORE_BASEURL: "http://ccd-data-store"
       AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_ccd_submission"
@@ -93,7 +93,7 @@ div-dgs:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "dgs-patryk-div"
+    releaseNameOverride: "dgs-{{ .Release.Name }}"
     environment:
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
@@ -118,14 +118,14 @@ div-emca:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "emca-patryk-div"
+    releaseNameOverride: "emca-{{ .Release.Name }}"
     environment:
       IDAM_API_HEALTH_URI: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health"
       IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
-      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-patryk-div"
-      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-patryk-div"
-      EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-patryk-div/health"
-      EVIDENCE_MANAGEMENT_UPLOAD_FILE_URL: "http://dm-store-patryk-div/documents"
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-{{ .Release.Name }}/health"
+      EVIDENCE_MANAGEMENT_UPLOAD_FILE_URL: "http://dm-store-{{ .Release.Name }}/documents"
       AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE: "divorce_document_generator"
       AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS: "900"
       HTTP_CONNECT_REQUEST_TIMEOUT: "60000"
@@ -140,10 +140,10 @@ div-cfs:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "cfs-patryk-div"
+    releaseNameOverride: "cfs-{{ .Release.Name }}"
     environment:
-      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-patryk-div"
-      REFORM_ENVIRONMENT: "demo"
+      DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Release.Name }}"
+      REFORM_ENVIRONMENT: "{{ .Values.global.environment }}"
       MANAGEMENT_ENDPOINT_HEALTH_CACHE_TIMETOLIVE: "30000"
 
 div-fps:
@@ -154,9 +154,9 @@ div-fps:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "fps-patryk-div"
+    releaseNameOverride: "fps-{{ .Release.Name }}"
     environment:
-      FEE_API_URL: "http://fees-patryk-div"
+      FEE_API_URL: "http://fees-{{ .Release.Name }}"
 
 ########################
 
@@ -169,7 +169,7 @@ rpe-send-letter-service:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "rpe-send-letter-service-patryk-div"
+    releaseNameOverride: "rpe-send-letter-service-{{ .Release.Name }}"
     environment:
       FILE_CLEANUP_ENABLED: true
       LETTER_TRACKING_DB_HOST: "{{ .Release.Name }}-postgresql"
@@ -179,7 +179,7 @@ rpe-send-letter-service:
       LETTER_TRACKING_DB_CONN_OPTIONS: ""
       FLYWAY_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/send_letter?sslmode=require"
       FLYWAY_NOOP_STRATEGY: "false"
-      S2S_URL: "http://rpe-service-auth-provider-patryk-div"
+      S2S_URL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
       ENCRYPTION_ENABLED: "false"
       APPINSIGHTS_INSTRUMENTATIONKEY: 00000000-0000-0000-0000-000000000000
 
@@ -197,7 +197,7 @@ dm-store:
         disabled: true
       STORAGE_CONTAINER_DOCUMENT_CONTAINER_NAME:
         disabled: true
-    releaseNameOverride: "dm-store-patryk-div"
+    releaseNameOverride: "dm-store-{{ .Release.Name }}"
     environment:
       ENABLE_DB_MIGRATE: 'true'
       ENABLE_TTL: 'false'
@@ -217,7 +217,7 @@ cmc-pdf-service:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "cmc-pdf-service-patryk-div"
+    releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
 #    releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
 
 draft-store-service:
@@ -228,7 +228,7 @@ draft-store-service:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "draft-store-service-patryk-div"
+    releaseNameOverride: "draft-store-service-{{ .Release.Name }}"
     environment:
       DRAFT_STORE_DB_HOST: "{{ .Release.Name }}-postgresql"
       DRAFT_STORE_DB_NAME: draftstore
@@ -244,7 +244,7 @@ fees-register-api:
     livenessDelay: 180
     readinessPeriod: 45
     livenessPeriod: 45
-    releaseNameOverride: "fees-patryk-div"
+    releaseNameOverride: "fees-{{ .Release.Name }}"
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/fees_register"
       SPRING_DATASOURCE_USERNAME: hmcts
@@ -260,7 +260,7 @@ payment-api:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "payment-api-patryk-div"
+    releaseNameOverride: "payment-api-{{ .Release.Name }}"
     environment:
       PAYMENT_AUDIT_FILE: /tmp/payment-audit.log
       ASB_CONNECTION_STRING: false
@@ -277,7 +277,7 @@ rpe-service-auth-provider:
     livenessDelay: 180
     readinessPeriod: 60
     livenessPeriod: 60
-    releaseNameOverride: "rpe-service-auth-provider-patryk-div"
+    releaseNameOverride: "rpe-service-auth-provider-{{ .Release.Name }}"
     environment:
       TESTING_SUPPORT_ENABLED: 'true'
       MICROSERVICEKEYS_EM_GW: AAAAAAAAAAAAAAAA
@@ -287,6 +287,23 @@ rpe-service-auth-provider:
       MICROSERVICEKEYS_CCD_GW: AAAAAAAAAAAAAAAA
       MICROSERVICEKEYS_DG_DOCASSEMBLY_API: AAAAAAAAAAAAAAAA
 
+rpe-feature-toggle-api:
+  java:
+    ingressHost: ""
+    image: hmctspublic.azurecr.io/rpe/feature-toggle-api:latest
+    readinessDelay: 180
+    livenessDelay: 180
+    readinessPeriod: 60
+    livenessPeriod: 60
+    releaseNameOverride: "rpe-feature-toggle-api-{{ .Release.Name }}"
+    importer:
+      cron:
+        enabled: false
+      oneoff:
+        enabled: false
+    postgresql:
+      postgresqlDatabase: "features"
+    
 postgresql:
   # postgresqlConfiguration: { "maxConnections": 300 }
   resources:
@@ -302,6 +319,7 @@ postgresql:
       CREATE DATABASE "definition-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "evidence" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
       CREATE DATABASE "div_scheduler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+      CREATE DATABASE "features" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
   postgresqlUsername: hmcts
   postgresqlPassword: hmcts
   postgresqlDatabase: user-profile
@@ -331,12 +349,13 @@ ccd:
     enabled: true
   testStubsService:
     enabled: true
+  releaseNameOverride: "ccd-{{ .Release.Name }}"
+
 #  ingressHost: ""
 #  readinessDelay: 180
 #  livenessDelay: 180
 #  readinessPeriod: 60
 #  livenessPeriod: 60
-#  releaseNameOverride: "ccd-patryk-div"
 #  adminWeb:
 #    enabled: true
 #    environment:
@@ -358,7 +377,7 @@ ccd:
 #        - divorce_as_caseworker_la@mailinator.com|DIVORCE|DIVORCE|Submitted
 #        - divorce_as_caseworker_admin@mailinator.com|DIVORCE|DIVORCE|Submitted
 #        - divorce_respondent_solicitor@mailinator.com|DIVORCE|DIVORCE|Submitted
-#      userProfileDatabaseHost: patryk-div-postgresql
+#      userProfileDatabaseHost: {{ .Release.Name }}-postgresql
 #      userProfileDatabasePort: 5432
 #      userProfileDatabaseUser: hmcts
 #      userProfileDatabasePassword: hmcts

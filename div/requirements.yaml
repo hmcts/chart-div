@@ -47,3 +47,6 @@ dependencies:
   - name: ccd
     version: 4.0.4-alpha
     repository: '@hmctspublic'
+  - name: rpe-feature-toggle-api
+    version: 3.0.2
+    repository: '@hmctspublic'
