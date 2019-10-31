@@ -27,7 +27,7 @@ div-cos:
     livenessPeriod: 60
     releaseNameOverride: "cos-{{ .Release.Name }}"
     environment:
-      IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
       SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_ENABLED: true
@@ -120,8 +120,8 @@ div-emca:
     livenessPeriod: 60
     releaseNameOverride: "emca-{{ .Release.Name }}"
     environment:
-      IDAM_API_HEALTH_URI: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health"
-      IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      IDAM_API_HEALTH_URI: "https://idam-api.aat.platform.hmcts.net/health"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
       AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
       DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Release.Name }}"
       EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-{{ .Release.Name }}/health"
