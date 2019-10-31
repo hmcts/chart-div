@@ -27,7 +27,7 @@ div-cos:
     livenessPeriod: 60
     releaseNameOverride: "cos-{{ .Release.Name }}"
     environment:
-      IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
       FEATURE_DN_REFUSAL: "true"
       FEATURE_RESP_SOLICITOR_DETAILS: "true"
       SCHEDULER_SEND_UPDATED_CASES_TO_ROBOTICS_ENABLED: true
@@ -120,8 +120,8 @@ div-emca:
     livenessPeriod: 60
     releaseNameOverride: "emca-{{ .Release.Name }}"
     environment:
-      IDAM_API_HEALTH_URI: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/health"
-      IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+      IDAM_API_HEALTH_URI: "https://idam-api.aat.platform.hmcts.net/health"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
       AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
       DOCUMENT_MANAGEMENT_STORE_URL: "http://dm-store-{{ .Release.Name }}"
       EVIDENCE_MANAGEMENT_HEALTH_URL: "http://dm-store-{{ .Release.Name }}/health"
@@ -157,6 +157,92 @@ div-fps:
     releaseNameOverride: "fps-{{ .Release.Name }}"
     environment:
       FEE_API_URL: "http://fees-{{ .Release.Name }}"
+
+div-pfe:
+  nodejs:
+    applicationPort: 3000
+    aadIdentityName: divorce
+    image: hmctspublic.azurecr.io/div/pfe:latest
+    ingressHost: ""
+    releaseNameOverride: "pfe-{{ .Release.Name }}"
+    environment:
+      CASE_ORCHESTRATION_SERVICE_DRAFT_URL: "http://cos-{{ .Release.Name }}/draftsapi/version/1"
+      CASE_ORCHESTRATION_SERVICE_URL: "http://cos-{{ .Release.Name }}"
+      DECREE_NISI_FRONTEND_URL: "https://dn-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_CLIENT_API_URL: "http://emca-{{ .Release.Name }}"
+      FEES_AND_PAYMENTS_URL: "http://fps-{{ .Release.Name }}"
+      PAYMENT_SERVICE_URL: "http://payment-api-{{ .Release.Name }}"
+      SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-{{ .Release.Name }}"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
+      IDAM_LOGIN_URL: "https://idam-web-public.aat.platform.hmcts.net/login"
+      PUBLIC_HOSTNAME: "https://pfe-{{ .Release.Name }}" # override in public facing envs
+
+div-rfe:
+  nodejs:
+    applicationPort: 3000
+    aadIdentityName: divorce
+    image: hmctspublic.azurecr.io/div/rfe:latest
+    ingressHost: ""
+    releaseNameOverride: "rfe-{{ .Release.Name }}"
+    environment:
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
+      IDAM_LOGIN_URL: "https://idam-web-public.aat.platform.hmcts.net/login"
+      COS_BASE_URL: "http://cos-{{ .Release.Name }}"
+      FEES_AND_PAYMENTS_URL: "http://fps-{{ .Release.Name }}"
+      DECREE_NISI_FRONTEND_URL: "https://dn-{{ .Release.Name }}"
+      DECREE_ABSOLUTE_FRONTEND_URL: "https://da-{{ .Release.Name }}"
+      CASE_MAINTENANCE_BASE_URL: "http://cms-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_CLIENT_API_URL: "http://emca-{{ .Release.Name }}"
+
+div-dn:
+  nodejs:
+    applicationPort: 3000
+    aadIdentityName: divorce
+    image: hmctspublic.azurecr.io/div/dn:latest
+    ingressHost: ""
+    releaseNameOverride: "dn-{{ .Release.Name }}"
+    environment:
+      EVIDENCE_MANAGEMENT_CLIENT_API_URL: "http://emca-{{ .Release.Name }}"
+      FEES_AND_PAYMENTS_URL: "http://fps-{{ .Release.Name }}"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
+      IDAM_LOGIN_URL: "https://idam-web-public.aat.platform.hmcts.net/login"
+      CASE_MAINTENANCE_BASE_URL: "http://cms-{{ .Release.Name }}"
+      ORCHESTRATION_SERVICE_AMEND_PETITION_URL: "http://cos-{{ .Release.Name }}/amend-petition"
+      ORCHESTRATION_SERVICE_AMEND_DN_REJECTION_URL: "http://cos-{{ .Release.Name }}/amend-petition-dn-rejection"
+      ORCHESTRATION_SERVICE_DRAFT_ENDPOINT: "http://cos-{{ .Release.Name }}/draftsapi/version/1"
+      ORCHESTRATION_SERVICE_GET_PETITION_URL: "http://cos-{{ .Release.Name }}/retrieve-case"
+      ORCHESTRATION_SERVICE_URL: "http://cos-{{ .Release.Name }}"
+      ORCHESTRATION_SERVICE_POST_PETITION_URL: "http://cos-{{ .Release.Name }}/submit-dn"
+      PETITIONER_FRONTEND_URL: "https://pfe-{{ .Release.Name }}"
+      DECREE_ABSOLUTE_FRONTEND_URL: "https://da-{{ .Release.Name }}"
+      RESPONDENT_FRONTEND_URL: "https://rfe-{{ .Release.Name }}"
+
+      BASE_URL: "https://dn-{{ .Release.Name }}"
+      PUBLIC_HOSTNAME: "https://dn-{{ .Release.Name }}"
+
+div-da:
+  nodejs:
+    applicationPort: 3000
+    aadIdentityName: divorce
+    image: "hmctspublic.azurecr.io/div/da:latest"
+    ingressHost: "dn-{{ .Release.Name }}"
+    environment:
+      BASE_URL: "https://da-{{ .Release.Name }}"
+      PUBLIC_HOSTNAME: "https://da-{{ .Release.Name }}"
+
+      CASE_MAINTENANCE_BASE_URL: "http://cms-{{ .Release.Name }}"
+      EVIDENCE_MANAGEMENT_CLIENT_API_URL: "http://emca-{{ .Release.Name }}/"
+      FEES_AND_PAYMENTS_URL: "http://fps-{{ .Release.Name }}"
+      IDAM_API_URL: "https://idam-api.aat.platform.hmcts.net"
+      IDAM_LOGIN_URL: "https://idam-web-public.aat.platform.hmcts.net/login"
+      ORCHESTRATION_SERVICE_URL: "http://cos-{{ .Release.Name }}"
+      ORCHESTRATION_SERVICE_DRAFT_ENDPOINT: "http://cos-{{ .Release.Name }}/draftsapi/version/1"
+      ORCHESTRATION_SERVICE_GET_PETITION_URL: "http://cos-{{ .Release.Name }}/retrieve-case"
+      ORCHESTRATION_SERVICE_GET_AOS_PETITION_URL: "http://cos-{{ .Release.Name }}/retrieve-aos-case"
+      ORCHESTRATION_SERVICE_POST_PETITION_URL: "http://cos-{{ .Release.Name }}/submit-da"
+      PETITIONER_FRONTEND_URL: "https://pfe-{{ .Release.Name }}"
+      RESPONDENT_FRONTEND_URL: "https://rfe-{{ .Release.Name }}"
+      DECREE_NISI_FRONTEND_URL: "https://dn-{{ .Release.Name }}"
 
 ########################
 
@@ -218,7 +304,6 @@ cmc-pdf-service:
     readinessPeriod: 60
     livenessPeriod: 60
     releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
-#    releaseNameOverride: "cmc-pdf-service-{{ .Release.Name }}"
 
 draft-store-service:
   java:
@@ -303,7 +388,7 @@ rpe-feature-toggle-api:
         enabled: false
     postgresql:
       postgresqlDatabase: "features"
-    
+
 postgresql:
   # postgresqlConfiguration: { "maxConnections": 300 }
   resources:
